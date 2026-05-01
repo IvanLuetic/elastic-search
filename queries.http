@@ -152,3 +152,11 @@ GET /knjige/_search
   ]
 }
 
+# Korak 6
+
+# Analyzer 
+POST /knjige/_analyze
+{
+  "analyzer": "hrvatski_analyzer",
+  "text": "Brzi smeđi most preko rijeke!"
+}
