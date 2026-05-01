@@ -1,0 +1,1 @@
+1.  Green/Yellow/Red su health statusi klastera u Elastic Search-u. Green znači da su svi shardovi alocirani čvorovima i sustav radi potpuno ispravno. Yellow znači da neke replike nisu dostupne, ali sustav i dalje radi, uz rizik gubitka podataka. Red znači da jedan ili više primarnih shardova nedostaje.
