@@ -4,3 +4,6 @@
     2.2. Za sortiranje, agregiranje i točno pretraživanje po naslovu
     2.3. Jer se koriste samo za usporedbu/filtiranje/agregacija, a ne za full-text pretragu, pa ne trebamo razlomljivati na tokene.
     2.4. Zato što opis sadrži dulji tekst i može se pretraživati po riječima.
+
+3.  3.1. Asciifolding zamijenjuje dijakritičke znakove (ć -> c).
+    3.2. \_score pokazuje relevantnost rezultata. U ovom slučaju 'roman' se pojavljuje jednom u svakom opisu i scores su vrlo slični.
