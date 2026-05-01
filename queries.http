@@ -160,3 +160,68 @@ POST /knjige/_analyze
   "analyzer": "hrvatski_analyzer",
   "text": "Brzi smeđi most preko rijeke!"
 }
+
+# Zadatak 5
+
+POST /knjige/_analyze
+{
+  "analyzer": "hrvatski_analyzer",
+  "text": "Na Drini ćuprija"
+}
+
+# Zadatak 6
+
+# Agregacija po autoru
+GET /knjige/_search
+{
+  "size": 0,
+  "aggs": {
+    "knjige_po_autoru": {
+      "terms": { "field": "autor" }
+    }
+  }
+}
+
+#Prosjecna cijena po zanru
+GET /knjige/_search
+{
+  "size": 0,
+  "aggs": {
+    "po_zanru": {
+      "terms": { "field": "zanr" },
+      "aggs": {
+        "prosjecna_cijena": {
+          "avg": { "field": "cijena" }
+        }
+      }
+    }
+  }
+}
+
+# Maks cijena po zanru
+GET /knjige/_search
+{
+  "size": 0,
+  "aggs": {
+    "dostupne_nedostupne": {
+      "terms": { "field": "zanr" },
+      "aggs": {
+        "dostupne": {
+          "max": { "field": "cijena" }
+        }
+      }
+    }
+  }
+}
+
+
+# Dostupne i nedostupne
+GET /knjige/_search
+{
+  "size": 0,
+  "aggs": {
+    "dostupne_nedostupne": {
+      "terms": { "field": "dostupno" }
+      }
+    }
+}
