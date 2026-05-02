@@ -225,3 +225,144 @@ GET /knjige/_search
       }
     }
 }
+
+# Zavrsni Zadatak
+
+PUT /filmovi
+{
+  "settings": {
+    "analysis": {
+      "analyzer": {
+        "hr_analyzer": {
+          "tokenizer": "standard",
+          "filter": ["lowercase", "asciifolding"]
+        }
+      }
+    }
+  },
+  "mappings": {
+    "properties": {
+      "naslov": {
+        "type": "text",
+        "analyzer": "hr_analyzer",
+        "fields": {
+          "keyword": { "type": "keyword" }
+        }
+      },
+      "redatelj": { "type": "keyword" },
+      "zanr": { "type": "keyword" },
+      "opis": {
+        "type": "text",
+        "analyzer": "hr_analyzer"
+      },
+      "godina": { "type": "integer" },
+      "ocjena": { "type": "double" },
+      "dostupno": { "type": "boolean" }
+    }
+  }
+}
+
+POST /filmovi/_bulk
+{ "index": { "_id": "1" } }
+{ "naslov": "Mirror", "redatelj": "Andrei Tarkovsky", "zanr": "drama", "opis": "Umirući čovjek preispituje svoj život kroz sjećanja na djetinjstvo, rat i obitelj.", "godina": 1975, "ocjena": 8.4, "dostupno": true }
+
+{ "index": { "_id": "2" } }
+{ "naslov": "Inland Empire", "redatelj": "David Lynch", "zanr": "nadrealizam", "opis": "Glumica počinje živjeti svoju ulogu, gubeći granicu između filma i stvarnosti.", "godina": 2006, "ocjena":6.8, "dostupno": true }
+
+{ "index": { "_id": "3" } }
+{ "naslov": "Vertigo", "redatelj": "Alfred Hitchcock", "zanr": "triler", "opis": "Bivši detektiv razvija opsesiju prema ženi koju treba pratiti.", "godina": 1958, "ocjena": 8.3, "dostupno": true }
+
+{ "index": { "_id": "4" } }
+{ "naslov": "Apocalypse Now", "redatelj": "Francis Ford Coppola", "zanr": "ratni", "opis": "Tajna misija u džungli Kambodže da se eliminira odmetnuti pukovnik.", "godina": 1979, "ocjena": 8.4, "dostupno": true }
+
+{ "index": { "_id": "5" } }
+{ "naslov": "Underground", "redatelj": "Emir Kusturica", "zanr": "komedija", "opis": "Prevarant uvjerava prijatelja da rat još traje kako bi ga držao u podrumu.", "godina": 1995, "ocjena": 8.6, "dostupno": true }
+
+{ "index": { "_id": "6" } }
+{ "naslov": "The Conformist", "redatelj": "Bernardo Bertolucci", "zanr": "drama", "opis": "Čovjek slabe volje se pridružuje fašistima i organizira asasinaciju bivšeg profesora.", "godina": 1970, "ocjena": 8.1, "dostupno": true }
+
+{ "index": { "_id": "7" } }
+{ "naslov": "Kaili Blues", "redatelj": "Bi Gan", "zanr": "drama", "opis": "Liječnik putuje kroz zabačena sela u potrazi za nećakom.", "godina": 2015, "ocjena": 7.4, "dostupno": true }
+
+{ "index": { "_id": "8" } }
+{ "naslov": "L'Avventura", "redatelj": "Michelangelo Antonioni", "zanr": "drama", "opis": "Žena nestane tijekom izleta, a njen dečko i najbolja prijateljica započinju vezu.", "godina": 1960, "ocjena": 8.0, "dostupno": true }
+
+{ "index": { "_id": "9" } }
+{ "naslov": "Eraserhead", "redatelj": "David Lynch", "zanr": "horor", "opis": "Henry Spencer se suočava sa ljutom curom i deformiranim djetetom u industrijskom svijetu.", "godina": 1977, "ocjena": 7.8, "dostupno": true }
+
+{ "index": { "_id": "10" } }
+{ "naslov": "A Brighter Summer Day", "redatelj": "Edward Yang", "zanr": "drama", "opis": "Nasilje i odrastanje među studentskim bandama u Tajvanu 1960-ih.", "godina": 1991, "ocjena": 8.9, "dostupno": true }
+
+GET /filmovi/_search
+{
+  "query": {
+    "match": {
+      "opis": "rat"
+    }
+  }
+}
+
+GET filmovi/_search
+{
+  "query": {
+    "term": {
+      "redatelj": {
+        "value": "Bi Gan"
+      }
+    }
+  }
+}
+
+GET filmovi/_search
+{
+  "query": {
+    "range": {
+      "ocjena": {
+        "gt": 8.5
+      }
+    }
+  }
+}
+
+GET filmovi/_search
+{
+  "query": {
+    "bool": {
+      "must": [
+        {"match": {
+          "opis": "žena"
+        }}
+      ],
+      "filter": [
+        {"term": {
+          "dostupno": "true"
+        }},
+        {"range": {
+          "ocjena": {
+            "gte": 7
+          }
+        }}
+      ]
+    }
+  }
+}
+
+GET filmovi/_search
+{
+  "size": 0,
+  "aggs": {
+    "filmovi_po_zanru": {
+      "terms": {
+        "field": "zanr"
+      },
+       "aggs": {
+      "prosjecna_ocjena": {
+        "avg": {
+          "field": "ocjena"
+        }
+      }
+    }
+    }
+  }
+}
+

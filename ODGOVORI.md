@@ -11,3 +11,5 @@
 4.  4.1. "na", "drini", "cuprija"
     4.2. lowercase pretvara sve znakove u lowercase, asciifolding zamnjenjuje dijakritičke znakove
     4.3. Analyzer dijeli text na riječi/tokene, i pomoću toga možemo raditi stvari poput lowercase pretvorbe i asciifoldinga za bolju pretragu i tako pronaći riječi koje nisu identične search term-u.
+
+5.  Elastic Search, za razliku od SQL upita, koristi invertirani indeks i puno brže pronalazi tražene riječi jer ne mora skenirati sve. ES može raditi i stemming, asciifolding, itd., što omogućuje puno bolju pretragu koja pronalazi korijene riječi bez obzira na kapitalizaciju i dijakritičke znakove. Također koristi i \_score, pomoću čega prvo vraća najrelevantnije rezultate. ES je dizajniran za distribuiranu arhitekturu te se lakše skalira.
